@@ -29,6 +29,8 @@ public class CityInfoController {
     public static void writeCityInfoToCsv(String cityName) {
         List<City> cities = getCityInfos(cityName);
         String fileHeaders = "_id, name, type, latitude, longitude";
+
+        // TODO: Directory name should be loaded from config file
         CsvFileWriter.writeCsvFile("/tmp/" + cityName + "_info.csv", cities, fileHeaders);
     }
 
@@ -44,7 +46,7 @@ public class CityInfoController {
             HttpResponse httpResponse = httpClient.execute(httpGetRequest);
             HttpEntity entity = httpResponse.getEntity();
             log.info("HTTP GET Request for CityInfo status code: " + httpResponse.getStatusLine().getStatusCode());
-            if (entity != null) {
+            if (httpResponse.getStatusLine().getStatusCode() == 200 && entity != null) {
                 String jsonString = EntityUtils.toString(entity);
                 log.info("HTTP GET Request for CityInfo Json Response: " + jsonString);
                 Gson gson = new GsonBuilder().create();
