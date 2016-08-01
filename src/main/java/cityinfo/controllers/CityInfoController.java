@@ -6,6 +6,7 @@ import java.util.List;
 
 import cityinfo.models.City;
 import cityinfo.utils.CsvFileWriter;
+import cityinfo.utils.HttpServiceUnavailableRetry;
 import org.apache.http.*;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
@@ -32,7 +33,11 @@ public class CityInfoController {
     }
 
     private static List<City> getCityInfos(String cityName) {
-        HttpClient httpClient = HttpClientBuilder.create().build();
+
+        HttpClientBuilder httpBuilder = HttpClientBuilder.create().setServiceUnavailableRetryStrategy(
+                new HttpServiceUnavailableRetry());
+        HttpClient httpClient = httpBuilder.build();
+
         List<City> cityInfos = new ArrayList<>();
         try {
             HttpGet httpGetRequest = new HttpGet(CITY_INFO_URL + cityName);

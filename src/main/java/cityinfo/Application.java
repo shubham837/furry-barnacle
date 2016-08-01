@@ -16,7 +16,6 @@ public class Application implements CommandLineRunner {
     private static final Logger log = LoggerFactory.getLogger(Application.class);
 
     public static void main(String args[]) {
-        log.info("Args passed: " + args.toString());
         SpringApplication.run(Application.class, args);
     }
 
@@ -27,5 +26,6 @@ public class Application implements CommandLineRunner {
         } else {
             log.error("City Name is not passed");
         }
+        return;
     }
 }
